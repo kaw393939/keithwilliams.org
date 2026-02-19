@@ -1,8 +1,15 @@
+import { redirect } from 'next/navigation'
+import { auth } from '../../auth'
 import { createPost } from './actions'
 
 export const dynamic = 'force-dynamic'
 
-export default function NewPostPage({ searchParams }) {
+export default async function NewPostPage({ searchParams }) {
+  const session = await auth()
+  if (!session?.user) {
+    redirect('/login')
+  }
+
   const error = searchParams?.error
 
   return (

@@ -37,11 +37,56 @@ async function connectWithRetry() {
 const client = await connectWithRetry()
 
 try {
+  // Auth.js tables
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL,
+      name VARCHAR(255),
+      email VARCHAR(255) UNIQUE,
+      "emailVerified" TIMESTAMPTZ,
+      image TEXT,
+      PRIMARY KEY (id)
+    );
+
+    CREATE TABLE IF NOT EXISTS accounts (
+      id SERIAL,
+      "userId" INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      type VARCHAR(255) NOT NULL,
+      provider VARCHAR(255) NOT NULL,
+      "providerAccountId" VARCHAR(255) NOT NULL,
+      refresh_token TEXT,
+      access_token TEXT,
+      expires_at BIGINT,
+      id_token TEXT,
+      scope TEXT,
+      session_state TEXT,
+      token_type VARCHAR(255),
+      PRIMARY KEY (id)
+    );
+
+    CREATE TABLE IF NOT EXISTS sessions (
+      id SERIAL,
+      "userId" INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      expires TIMESTAMPTZ NOT NULL,
+      "sessionToken" VARCHAR(255) NOT NULL UNIQUE,
+      PRIMARY KEY (id)
+    );
+
+    CREATE TABLE IF NOT EXISTS verification_token (
+      identifier TEXT NOT NULL,
+      expires TIMESTAMPTZ NOT NULL,
+      token TEXT NOT NULL UNIQUE,
+      PRIMARY KEY (identifier, token)
+    );
+  `)
+
+  // App tables
   await client.query(`
     CREATE TABLE IF NOT EXISTS posts (
       id BIGSERIAL PRIMARY KEY,
       title TEXT NOT NULL,
       body TEXT NOT NULL,
+      author_id INTEGER REFERENCES users(id),
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
   `)
