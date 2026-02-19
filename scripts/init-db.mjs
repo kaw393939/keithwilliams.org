@@ -104,6 +104,18 @@ try {
     );
   `)
 
+  // ── Migration: add author_id to posts if missing (idempotent) ───────
+  await client.query(`
+    DO $$ BEGIN
+      IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'posts' AND column_name = 'author_id'
+      ) THEN
+        ALTER TABLE posts ADD COLUMN author_id INTEGER REFERENCES users(id);
+      END IF;
+    END $$;
+  `)
+
   await client.query(`
     CREATE TABLE IF NOT EXISTS comments (
       id BIGSERIAL PRIMARY KEY,
