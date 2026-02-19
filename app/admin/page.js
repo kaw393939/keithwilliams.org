@@ -48,11 +48,15 @@ export default async function AdminPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-semibold tracking-tight">Admin Dashboard</h1>
+      <h1 className="text-sm font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+        Admin dashboard
+      </h1>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Users ({users.length})</CardTitle>
+          <CardTitle className="text-lg font-medium tracking-tight">
+            Users ({users.length})
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
@@ -84,7 +88,9 @@ export default async function AdminPage() {
                       <span className="truncate">{u.name || '—'}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="font-mono text-xs">{u.email}</TableCell>
+                  <TableCell className="font-mono text-xs tracking-tight">
+                    {u.email}
+                  </TableCell>
                   <TableCell>
                     <Badge variant={u.role === 'admin' ? 'default' : 'secondary'}>
                       {u.role}
@@ -99,7 +105,12 @@ export default async function AdminPage() {
                           name="role"
                           value={u.role === 'admin' ? 'user' : 'admin'}
                         />
-                        <Button type="submit" variant="outline" size="sm">
+                        <Button
+                          type="submit"
+                          variant="outline"
+                          size="sm"
+                          className="rounded-none"
+                        >
                           {u.role === 'admin' ? 'Demote' : 'Promote'}
                         </Button>
                       </form>
@@ -116,7 +127,9 @@ export default async function AdminPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Posts ({posts.length})</CardTitle>
+          <CardTitle className="text-lg font-medium tracking-tight">
+            Posts ({posts.length})
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
@@ -148,7 +161,12 @@ export default async function AdminPage() {
                   <TableCell className="text-right">
                     <form action={deletePost} className="inline">
                       <input type="hidden" name="postId" value={p.id} />
-                      <Button type="submit" variant="destructive" size="sm">
+                      <Button
+                        type="submit"
+                        variant="destructive"
+                        size="sm"
+                        className="rounded-none"
+                      >
                         Delete
                       </Button>
                     </form>
@@ -162,7 +180,9 @@ export default async function AdminPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Comments ({comments.length})</CardTitle>
+          <CardTitle className="text-lg font-medium tracking-tight">
+            Comments ({comments.length})
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {comments.length === 0 ? (
@@ -199,7 +219,12 @@ export default async function AdminPage() {
                     <TableCell className="text-right">
                       <form action={deleteCommentAdmin} className="inline">
                         <input type="hidden" name="commentId" value={c.id} />
-                        <Button type="submit" variant="destructive" size="sm">
+                        <Button
+                          type="submit"
+                          variant="destructive"
+                          size="sm"
+                          className="rounded-none"
+                        >
                           Delete
                         </Button>
                       </form>

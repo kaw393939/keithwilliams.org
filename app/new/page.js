@@ -31,7 +31,9 @@ export default async function NewPostPage({ searchParams }) {
 
   return (
     <div className="max-w-2xl space-y-4">
-      <h1 className="text-xl font-semibold tracking-tight">New post</h1>
+      <h1 className="text-sm font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+        New post
+      </h1>
 
       {error === 'missing' ? (
         <Alert variant="destructive">
@@ -51,7 +53,7 @@ export default async function NewPostPage({ searchParams }) {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Create</CardTitle>
+          <CardTitle className="text-lg font-medium tracking-tight">Create</CardTitle>
         </CardHeader>
         <CardContent>
           <form action={createPost} className="grid gap-4">
@@ -86,7 +88,9 @@ export default async function NewPostPage({ searchParams }) {
             </label>
 
             <div>
-              <Button type="submit">Create</Button>
+              <Button type="submit" className="rounded-none">
+                Create
+              </Button>
             </div>
           </form>
         </CardContent>

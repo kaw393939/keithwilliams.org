@@ -65,8 +65,8 @@ export default async function PostPage({ params }) {
 
       <article className="space-y-3">
         <div className="space-y-1">
-          <h1 className="text-2xl font-semibold tracking-tight">{post.title}</h1>
-          <div className="text-xs text-muted-foreground">
+          <h1 className="text-3xl font-medium tracking-tight">{post.title}</h1>
+          <div className="text-xs font-mono uppercase tracking-wide text-muted-foreground">
             <span className="inline-flex flex-wrap items-center gap-2">
               {post.author_name ? <span>by {post.author_name}</span> : null}
               <time>{new Date(post.created_at).toLocaleString()}</time>
@@ -78,9 +78,9 @@ export default async function PostPage({ params }) {
         </div>
       </article>
 
-      <section className="space-y-4 border-t pt-6">
+      <section className="space-y-4 border-t pt-8">
         <div className="flex items-baseline justify-between gap-2">
-          <h2 className="text-base font-semibold tracking-tight">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-muted-foreground">
             Comments ({comments.length})
           </h2>
         </div>
@@ -117,7 +117,12 @@ export default async function PostPage({ params }) {
                       <form action={deleteComment}>
                         <input type="hidden" name="commentId" value={c.id} />
                         <input type="hidden" name="postId" value={id} />
-                        <Button type="submit" variant="destructive" size="sm">
+                        <Button
+                          type="submit"
+                          variant="destructive"
+                          size="sm"
+                          className="rounded-none"
+                        >
                           Delete
                         </Button>
                       </form>

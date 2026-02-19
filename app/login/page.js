@@ -25,7 +25,9 @@ export default async function LoginPage() {
     <div className="max-w-xl">
       <Card>
         <CardHeader>
-          <CardTitle>Sign in</CardTitle>
+          <CardTitle className="text-sm font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            Sign in
+          </CardTitle>
           <CardDescription>
             Sign in with your Google account to interact with the blog. Admins can
             create posts; all signed-in users can leave comments.
@@ -38,7 +40,7 @@ export default async function LoginPage() {
               await signIn('google', { redirectTo: '/' })
             }}
           >
-            <Button type="submit" variant="outline" className="gap-3">
+            <Button type="submit" variant="outline" className="gap-3 rounded-none">
               <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
                 <path
                   fill="#EA4335"

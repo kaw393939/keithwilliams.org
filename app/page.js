@@ -32,7 +32,9 @@ export default async function Page() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-xl font-semibold tracking-tight">Posts</h1>
+        <h1 className="text-sm font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+          Posts
+        </h1>
       </div>
 
       {posts.length === 0 ? (
@@ -42,25 +44,25 @@ export default async function Page() {
           {posts.map((p) => (
             <article key={p.id}>
               <Card>
-                <CardHeader className="space-y-2">
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <CardTitle className="text-base">
+                <CardHeader className="space-y-3">
+                  <div className="grid gap-1 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-4">
+                    <CardTitle className="text-lg font-medium tracking-tight">
                       <a href={`/posts/${p.id}`} className="hover:underline">
                         {p.title}
                       </a>
                     </CardTitle>
-                    <CardDescription className="text-xs">
-                      <span className="inline-flex items-center gap-2">
+                    <CardDescription className="text-xs font-mono uppercase tracking-wide">
+                      <div className="flex flex-wrap items-center gap-3 sm:justify-end">
                         {p.author_name ? <span>{p.author_name}</span> : null}
                         <time dateTime={p.created_at}>
                           {new Date(p.created_at).toLocaleDateString()}
                         </time>
-                      </span>
+                      </div>
                     </CardDescription>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <p className="whitespace-pre-wrap text-sm leading-6 text-foreground/90">
+                  <p className="whitespace-pre-wrap text-sm leading-7 text-foreground/90">
                     {p.body.length > 300 ? p.body.slice(0, 300) + '...' : p.body}
                   </p>
                   {p.body.length > 300 ? (

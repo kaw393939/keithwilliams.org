@@ -27,20 +27,22 @@ export default async function RootLayout({ children }) {
         >
           Skip to content
         </a>
-        <div className="container py-8">
+        <div className="container py-10">
           <header
             role="banner"
-            className="flex flex-wrap items-baseline justify-between gap-3"
+            className="flex flex-wrap items-end justify-between gap-4 border-b pb-6"
           >
             <div>
-              <a href="/" className="text-base font-semibold tracking-tight">
+              <a href="/" className="text-sm font-semibold uppercase tracking-[0.22em]">
                 keithwilliams.org
               </a>
-              <div className="mt-1 text-xs text-muted-foreground">Next.js + Postgres blog</div>
+              <div className="mt-2 text-xs text-muted-foreground">
+                Next.js + Postgres blog
+              </div>
             </div>
             <nav
               aria-label="Main navigation"
-              className="flex flex-wrap items-center gap-2"
+              className="flex flex-wrap items-center gap-1"
             >
               <Button asChild variant="ghost" size="sm">
                 <a href="/">Posts</a>
@@ -78,10 +80,10 @@ export default async function RootLayout({ children }) {
               )}
             </nav>
           </header>
-          <main id="main" role="main" className="mt-6 min-h-[50vh]">
+          <main id="main" role="main" className="mt-10 min-h-[50vh]">
             {children}
           </main>
-          <footer role="contentinfo" className="mt-10 text-xs text-muted-foreground">
+          <footer role="contentinfo" className="mt-12 border-t pt-6 text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} keithwilliams.org &mdash; Hosted on the single-server Traefik platform.
           </footer>
         </div>
