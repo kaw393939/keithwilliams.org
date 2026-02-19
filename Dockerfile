@@ -31,7 +31,10 @@ COPY --from=builder /app/public ./public
 # DB init script
 COPY --from=builder /app/scripts ./scripts
 
+# SQL migrations
+COPY --from=builder /app/migrations ./migrations
+
 USER nextjs
 EXPOSE 3000
 
-CMD ["sh", "-lc", "node scripts/init-db.mjs && node server.js"]
+CMD ["sh", "-lc", "node scripts/migrate.mjs && node server.js"]

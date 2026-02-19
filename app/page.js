@@ -1,5 +1,14 @@
 import { query } from '../lib/db'
 
+import { Button } from '../components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '../components/ui/card'
+
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
@@ -21,51 +30,51 @@ export default async function Page() {
   const posts = await getPosts()
 
   return (
-    <div>
-      <h1 style={{ margin: '0 0 14px 0' }}>Posts</h1>
+    <div className="space-y-4">
+      <div>
+        <h1 className="text-xl font-semibold tracking-tight">Posts</h1>
+      </div>
+
       {posts.length === 0 ? (
-        <div style={{ opacity: 0.85 }}>No posts yet.</div>
+        <div className="text-sm text-muted-foreground">No posts yet.</div>
       ) : (
-        <div style={{ display: 'grid', gap: 12 }} role="feed" aria-label="Blog posts">
+        <div className="grid gap-3" role="feed" aria-label="Blog posts">
           {posts.map((p) => (
-            <article
-              key={p.id}
-              style={{
-                border: '1px solid rgba(229,231,235,0.15)',
-                borderRadius: 12,
-                padding: 14,
-                background: 'rgba(255,255,255,0.02)',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'baseline' }}>
-                <h2 style={{ fontSize: 16, margin: 0 }}>
-                  <a
-                    href={`/posts/${p.id}`}
-                    style={{ color: '#e5e7eb', textDecoration: 'none' }}
-                  >
-                    {p.title}
-                  </a>
-                </h2>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexShrink: 0 }}>
-                  {p.author_name && (
-                    <span style={{ opacity: 0.65, fontSize: 11 }}>{p.author_name}</span>
-                  )}
-                  <time style={{ opacity: 0.6, fontSize: 11 }} dateTime={p.created_at}>
-                    {new Date(p.created_at).toLocaleDateString()}
-                  </time>
-                </div>
-              </div>
-              <p style={{ margin: '10px 0 0 0', whiteSpace: 'pre-wrap', opacity: 0.88, fontSize: 14, lineHeight: 1.5 }}>
-                {p.body.length > 300 ? p.body.slice(0, 300) + '...' : p.body}
-              </p>
-              {p.body.length > 300 && (
-                <a
-                  href={`/posts/${p.id}`}
-                  style={{ color: '#60a5fa', fontSize: 12, textDecoration: 'none', marginTop: 6, display: 'inline-block' }}
-                >
-                  Read more &rarr;
-                </a>
-              )}
+            <article key={p.id}>
+              <Card>
+                <CardHeader className="space-y-2">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <CardTitle className="text-base">
+                      <a href={`/posts/${p.id}`} className="hover:underline">
+                        {p.title}
+                      </a>
+                    </CardTitle>
+                    <CardDescription className="text-xs">
+                      <span className="inline-flex items-center gap-2">
+                        {p.author_name ? <span>{p.author_name}</span> : null}
+                        <time dateTime={p.created_at}>
+                          {new Date(p.created_at).toLocaleDateString()}
+                        </time>
+                      </span>
+                    </CardDescription>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <p className="whitespace-pre-wrap text-sm leading-6 text-foreground/90">
+                    {p.body.length > 300 ? p.body.slice(0, 300) + '...' : p.body}
+                  </p>
+                  {p.body.length > 300 ? (
+                    <Button
+                      asChild
+                      variant="link"
+                      size="sm"
+                      className="h-auto px-0"
+                    >
+                      <a href={`/posts/${p.id}`}>Read more →</a>
+                    </Button>
+                  ) : null}
+                </CardContent>
+              </Card>
             </article>
           ))}
         </div>

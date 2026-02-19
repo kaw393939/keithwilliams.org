@@ -1,4 +1,8 @@
+import './globals.css'
+
 import { auth, signOut } from '../auth'
+
+import { Button } from '../components/ui/button'
 
 export const metadata = {
   title: 'keithwilliams.org — Blog',
@@ -11,101 +15,73 @@ export default async function RootLayout({ children }) {
   const isAdmin = user?.role === 'admin'
 
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <meta name="color-scheme" content="dark" />
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>K</text></svg>" />
       </head>
-      <body style={{
-        margin: 0,
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-        background: '#0b1020',
-        color: '#e5e7eb',
-        WebkitFontSmoothing: 'antialiased',
-        MozOsxFontSmoothing: 'grayscale',
-      }}>
+      <body className="min-h-dvh bg-background text-foreground">
         <a
           href="#main"
-          style={{
-            position: 'absolute',
-            left: '-9999px',
-            top: 'auto',
-            width: '1px',
-            height: '1px',
-            overflow: 'hidden',
-          }}
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-foreground focus:ring-2 focus:ring-ring"
         >
           Skip to content
         </a>
-        <div style={{ maxWidth: 860, margin: '0 auto', padding: '28px 18px' }}>
+        <div className="container py-8">
           <header
             role="banner"
-            style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}
+            className="flex flex-wrap items-baseline justify-between gap-3"
           >
             <div>
-              <a href="/" style={{ color: '#e5e7eb', textDecoration: 'none', fontWeight: 700, fontSize: 18 }}>
+              <a href="/" className="text-base font-semibold tracking-tight">
                 keithwilliams.org
               </a>
-              <div style={{ opacity: 0.65, fontSize: 12, marginTop: 2 }}>Next.js + Postgres blog</div>
+              <div className="mt-1 text-xs text-muted-foreground">Next.js + Postgres blog</div>
             </div>
             <nav
               aria-label="Main navigation"
-              style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 14 }}
+              className="flex flex-wrap items-center gap-2"
             >
-              <a href="/" style={{ color: '#e5e7eb', textDecoration: 'none' }}>Posts</a>
+              <Button asChild variant="ghost" size="sm">
+                <a href="/">Posts</a>
+              </Button>
               {isAdmin && (
                 <>
-                  <a href="/new" style={{ color: '#e5e7eb', textDecoration: 'none' }}>New</a>
-                  <a href="/admin" style={{ color: '#60a5fa', textDecoration: 'none', fontSize: 12 }}>Admin</a>
+                  <Button asChild variant="ghost" size="sm">
+                    <a href="/new">New</a>
+                  </Button>
+                  <Button asChild variant="secondary" size="sm">
+                    <a href="/admin">Admin</a>
+                  </Button>
                 </>
               )}
               {user ? (
                 <>
-                  <span style={{ opacity: 0.65, fontSize: 12 }}>{user.name || user.email}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {user.name || user.email}
+                  </span>
                   <form
                     action={async () => {
                       'use server'
                       await signOut({ redirectTo: '/' })
                     }}
-                    style={{ display: 'inline' }}
                   >
-                    <button
-                      type="submit"
-                      style={{
-                        background: 'none',
-                        border: '1px solid rgba(229,231,235,0.2)',
-                        color: '#e5e7eb',
-                        padding: '4px 10px',
-                        borderRadius: 6,
-                        cursor: 'pointer',
-                        fontSize: 12,
-                      }}
-                    >
+                    <Button type="submit" variant="outline" size="sm">
                       Sign out
-                    </button>
+                    </Button>
                   </form>
                 </>
               ) : (
-                <a
-                  href="/login"
-                  style={{
-                    color: '#e5e7eb',
-                    border: '1px solid rgba(229,231,235,0.2)',
-                    padding: '4px 10px',
-                    borderRadius: 6,
-                    textDecoration: 'none',
-                    fontSize: 12,
-                  }}
-                >
-                  Sign in
-                </a>
+                <Button asChild variant="outline" size="sm">
+                  <a href="/login">Sign in</a>
+                </Button>
               )}
             </nav>
           </header>
-          <main id="main" role="main" style={{ marginTop: 22, minHeight: '50vh' }}>
+          <main id="main" role="main" className="mt-6 min-h-[50vh]">
             {children}
           </main>
-          <footer role="contentinfo" style={{ marginTop: 34, opacity: 0.6, fontSize: 11 }}>
+          <footer role="contentinfo" className="mt-10 text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} keithwilliams.org &mdash; Hosted on the single-server Traefik platform.
           </footer>
         </div>

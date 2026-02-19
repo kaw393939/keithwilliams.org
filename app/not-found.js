@@ -1,18 +1,17 @@
+import { Button } from '../components/ui/button'
+
 export default function NotFound() {
   return (
-    <div style={{ textAlign: 'center', paddingTop: 40 }}>
-      <h1 style={{ fontSize: 48, margin: '0 0 8px 0', opacity: 0.3 }}>404</h1>
-      <p style={{ opacity: 0.7, fontSize: 15, marginBottom: 16 }}>Page not found.</p>
-      <a
-        href="/"
-        style={{
-          color: '#60a5fa',
-          textDecoration: 'none',
-          fontSize: 14,
-        }}
-      >
-        &larr; Back to posts
-      </a>
+    <div className="flex flex-col items-center justify-center gap-4 py-10 text-center">
+      <div className="space-y-1">
+        <h1 className="text-5xl font-semibold tracking-tight text-foreground/30">
+          404
+        </h1>
+        <p className="text-sm text-muted-foreground">Page not found.</p>
+      </div>
+      <Button asChild variant="link" className="h-auto px-0">
+        <a href="/">← Back to posts</a>
+      </Button>
     </div>
   )
 }
