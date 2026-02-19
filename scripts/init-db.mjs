@@ -37,7 +37,7 @@ async function connectWithRetry() {
 const client = await connectWithRetry()
 
 try {
-  // Auth.js tables
+  // ── Auth.js tables ──────────────────────────────────────────────────
   await client.query(`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL,
@@ -45,6 +45,7 @@ try {
       email VARCHAR(255) UNIQUE,
       "emailVerified" TIMESTAMPTZ,
       image TEXT,
+      role VARCHAR(20) NOT NULL DEFAULT 'user',
       PRIMARY KEY (id)
     );
 
@@ -80,17 +81,44 @@ try {
     );
   `)
 
-  // App tables
+  // ── Migration: add role column if missing (idempotent) ──────────────
+  await client.query(`
+    DO $$ BEGIN
+      IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'users' AND column_name = 'role'
+      ) THEN
+        ALTER TABLE users ADD COLUMN role VARCHAR(20) NOT NULL DEFAULT 'user';
+      END IF;
+    END $$;
+  `)
+
+  // ── App tables ──────────────────────────────────────────────────────
   await client.query(`
     CREATE TABLE IF NOT EXISTS posts (
       id BIGSERIAL PRIMARY KEY,
-      title TEXT NOT NULL,
+      title VARCHAR(200) NOT NULL,
       body TEXT NOT NULL,
       author_id INTEGER REFERENCES users(id),
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
   `)
 
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS comments (
+      id BIGSERIAL PRIMARY KEY,
+      post_id BIGINT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+      author_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      body VARCHAR(5000) NOT NULL,
+      flagged BOOLEAN NOT NULL DEFAULT FALSE,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_comments_post_id ON comments(post_id);
+    CREATE INDEX IF NOT EXISTS idx_comments_author_id ON comments(author_id);
+  `)
+
+  // ── Seed data ───────────────────────────────────────────────────────
   const count = await client.query('SELECT COUNT(*)::int AS n FROM posts')
   if (count.rows?.[0]?.n === 0) {
     await client.query('INSERT INTO posts (title, body) VALUES ($1, $2)', [
@@ -98,6 +126,8 @@ try {
       'This is a minimal blog backed by Postgres. Create a new post at /new.',
     ])
   }
+
+  console.log('[init-db] Schema migration complete.')
 } finally {
   await client.end()
 }
