@@ -46,7 +46,7 @@ export default async function RootLayout({ children }) {
               <a href="/" style={{ color: '#e5e7eb', textDecoration: 'none', fontWeight: 700, fontSize: 18 }}>
                 keithwilliams.org
               </a>
-              <div style={{ opacity: 0.6, fontSize: 12, marginTop: 2 }}>Next.js + Postgres blog</div>
+              <div style={{ opacity: 0.65, fontSize: 12, marginTop: 2 }}>Next.js + Postgres blog</div>
             </div>
             <nav
               aria-label="Main navigation"
@@ -61,7 +61,7 @@ export default async function RootLayout({ children }) {
               )}
               {user ? (
                 <>
-                  <span style={{ opacity: 0.6, fontSize: 12 }}>{user.name || user.email}</span>
+                  <span style={{ opacity: 0.65, fontSize: 12 }}>{user.name || user.email}</span>
                   <form
                     action={async () => {
                       'use server'
@@ -105,7 +105,7 @@ export default async function RootLayout({ children }) {
           <main id="main" role="main" style={{ marginTop: 22, minHeight: '50vh' }}>
             {children}
           </main>
-          <footer role="contentinfo" style={{ marginTop: 34, opacity: 0.5, fontSize: 11 }}>
+          <footer role="contentinfo" style={{ marginTop: 34, opacity: 0.6, fontSize: 11 }}>
             &copy; {new Date().getFullYear()} keithwilliams.org &mdash; Hosted on the single-server Traefik platform.
           </footer>
         </div>

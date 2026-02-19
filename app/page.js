@@ -48,9 +48,9 @@ export default async function Page() {
                 </h2>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexShrink: 0 }}>
                   {p.author_name && (
-                    <span style={{ opacity: 0.6, fontSize: 11 }}>{p.author_name}</span>
+                    <span style={{ opacity: 0.65, fontSize: 11 }}>{p.author_name}</span>
                   )}
-                  <time style={{ opacity: 0.5, fontSize: 11 }} dateTime={p.created_at}>
+                  <time style={{ opacity: 0.6, fontSize: 11 }} dateTime={p.created_at}>
                     {new Date(p.created_at).toLocaleDateString()}
                   </time>
                 </div>
