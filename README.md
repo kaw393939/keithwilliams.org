@@ -32,6 +32,8 @@ Required at runtime:
 - `GOOGLE_CLIENT_SECRET`
 - `NEXTAUTH_SECRET`
 - `NEXTAUTH_URL` (production: `https://keithwilliams.org`)
+- `AUTH_SECRET` (Auth.js v5; set equal to `NEXTAUTH_SECRET`)
+- `AUTH_URL` (Auth.js v5; set equal to `NEXTAUTH_URL`)
 - `AUTH_TRUST_HOST=true` (required behind reverse proxy)
 
 ## Local development
@@ -45,6 +47,8 @@ export GOOGLE_CLIENT_ID=your-client-id
 export GOOGLE_CLIENT_SECRET=your-client-secret
 export NEXTAUTH_SECRET=$(openssl rand -base64 32)
 export NEXTAUTH_URL=http://localhost:3000
+export AUTH_SECRET="$NEXTAUTH_SECRET"
+export AUTH_URL="$NEXTAUTH_URL"
 export AUTH_TRUST_HOST=true
 
 npm run db:migrate

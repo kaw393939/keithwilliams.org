@@ -8,6 +8,28 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms))
 }
 
+function requireNonEmptyEnv(name) {
+  const value = process.env[name]
+  if (!value || String(value).trim().length === 0) {
+    throw new Error(`Missing or empty env var ${name}`)
+  }
+}
+
+function authPreflight() {
+  // Auth.js v5 expects AUTH_* in production. We also support NEXTAUTH_* as fallbacks.
+  const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET
+  const url = process.env.AUTH_URL || process.env.NEXTAUTH_URL
+
+  if (!secret || String(secret).trim().length === 0) {
+    throw new Error(
+      'Missing or empty auth secret (set AUTH_SECRET or NEXTAUTH_SECRET)'
+    )
+  }
+  if (!url || String(url).trim().length === 0) {
+    throw new Error('Missing or empty auth url (set AUTH_URL or NEXTAUTH_URL)')
+  }
+}
+
 async function connectWithRetry() {
   const password = process.env.POSTGRES_PASSWORD
   let lastError
@@ -101,6 +123,11 @@ async function applyMigration(client, migrationsDir, filename) {
 }
 
 async function main() {
+  // Fail fast before we ever start the app if critical runtime env is missing.
+  // This prevents confusing OAuth callback errors in production.
+  requireNonEmptyEnv('POSTGRES_PASSWORD')
+  authPreflight()
+
   const __filename = fileURLToPath(import.meta.url)
   const __dirname = path.dirname(__filename)
   const migrationsDir = path.resolve(__dirname, '..', 'migrations')
