@@ -1,3 +1,27 @@
+# KeithWilliams.org
+
+<!-- portfolio-curation -->
+## Portfolio Overview
+Personal blog with Google OAuth, role-based access control, comments, and a modern Next.js application stack.
+
+**Live site:** https://keithwilliams.org
+
+## What This Demonstrates
+- Personal publishing
+- full-stack web
+- identity and access control
+
+## Stack
+JavaScript, Next.js, PostgreSQL
+
+## Portfolio Status
+This repository is part of Keith Williams' curated public portfolio. The README has been updated to explain the project purpose, technical focus, and why the work is worth reviewing.
+<!-- /portfolio-curation -->
+
+---
+
+## Original Notes
+
 # keithwilliams.org
 
 Personal blog with Google OAuth, role-based access control, and comments — built with Next.js (App Router) and PostgreSQL.
@@ -114,3 +138,4 @@ sudo -u deploy docker exec -i keithwilliams_blog node scripts/admin.mjs list-use
 # Promote a user to admin
 sudo -u deploy docker exec -i keithwilliams_blog node scripts/admin.mjs promote --email keith@firehose360.com
 ```
+
